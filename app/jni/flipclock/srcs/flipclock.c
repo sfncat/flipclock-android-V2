@@ -865,12 +865,32 @@ static void _flipclock_handle_keydown(struct flipclock *app, SDL_Event event)
 	}
 }
 
+/**
+ * Card and weather texts are baked into GPU textures and only repainted when
+ * the text changes, so after the render device or its targets are reset every
+ * card would stay blank until that digit changed next time -- up to an hour for
+ * the hour card. Recreate the textures and ask for a repaint instead.
+ */
+static void _flipclock_reset_textures(struct flipclock *app)
+{
+	RETURN_IF_FAIL(app != NULL);
+
+	for (int i = 0; i < app->clocks_length; ++i) {
+		if (app->clocks[i] == NULL)
+			continue;
+		flipclock_clock_reset_textures(app->clocks[i]);
+	}
+	LOG_DEBUG("Renderer reset, recreated card textures.\n");
+	SDL_LockMutex(app->weather_mutex);
+	app->weather_text_dirty = true;
+	SDL_UnlockMutex(app->weather_mutex);
+}
+
 static void _flipclock_handle_event(struct flipclock *app, SDL_Event event)
 {
 	RETURN_IF_FAIL(app != NULL);
 
 	switch (event.type) {
-#if defined(_WIN32)
 	/**
 	 * There is a silly design in Windows screensaver
 	 * chooser. When you choose one screensaver, it will
@@ -881,12 +901,20 @@ static void _flipclock_handle_event(struct flipclock *app, SDL_Event event)
 	 * the program with the same HWND again! And your
 	 * previous program only get a SDL_RENDER_TARGETS_RESET.
 	 * So we have to close the lost program manually here.
+	 * On Android this is how SDL reports a recreated EGL context, e.g. when
+	 * the surface was destroyed while the activity was stopped during a
+	 * cold start.
 	 */
 	case SDL_RENDER_TARGETS_RESET:
-		if (app->preview)
+	case SDL_RENDER_DEVICE_RESET:
+#if defined(_WIN32)
+		if (app->preview) {
 			app->running = false;
-		break;
+			break;
+		}
 #endif
+		_flipclock_reset_textures(app);
+		break;
 	case SDL_WINDOWEVENT:
 		_flipclock_handle_window_event(app, event);
 		break;

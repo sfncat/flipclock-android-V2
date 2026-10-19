@@ -759,6 +759,18 @@ void flipclock_clock_set_ampm(struct flipclock_clock *clock, const char ampm[])
 	// Set ampm should never flip a card.
 }
 
+void flipclock_clock_reset_textures(struct flipclock_clock *clock)
+{
+	RETURN_IF_FAIL(clock != NULL);
+
+	// Never destroy a texture that is still bound as the render target.
+	SDL_SetRenderTarget(clock->renderer, NULL);
+	flipclock_card_reset_textures(clock->hour);
+	flipclock_card_reset_textures(clock->minute);
+	if (clock->second != NULL)
+		flipclock_card_reset_textures(clock->second);
+}
+
 void flipclock_clock_handle_window_event(struct flipclock_clock *clock,
 					 SDL_Event event)
 {
@@ -792,11 +804,12 @@ void flipclock_clock_handle_window_event(struct flipclock_clock *clock,
 		/**
 		 * Sometimes when a window is restored, its texture get lost.
 		 * Typically happens when we have two fullscreen clocks in
-		 * one display, and the lower one is switched to top, and we
-		 * have to redraw its texture.
+		 * one display, and the lower one is switched to top, and on
+		 * Android when the EGL context is recreated after a cold start.
 		 */
-		// XXX: It seems OK without redrawing.
-		// flipclock_clock_draw(clock);
+		LOG_DEBUG("Clock `%d` restored, recreating card textures.\n",
+			  clock_i);
+		flipclock_clock_reset_textures(clock);
 		break;
 	case SDL_WINDOWEVENT_CLOSE:
 		flipclock_clock_destroy(clock);

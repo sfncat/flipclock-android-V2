@@ -56,6 +56,7 @@ void flipclock_clock_set_minute(struct flipclock_clock *clock,
 void flipclock_clock_set_second(struct flipclock_clock *clock,
 				const char second[], bool flip);
 void flipclock_clock_set_ampm(struct flipclock_clock *clock, const char ampm[]);
+void flipclock_clock_reset_textures(struct flipclock_clock *clock);
 void flipclock_clock_handle_window_event(struct flipclock_clock *clock,
 					 SDL_Event event);
 void flipclock_clock_animate(struct flipclock_clock *clock);

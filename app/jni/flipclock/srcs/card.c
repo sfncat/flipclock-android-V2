@@ -432,6 +432,22 @@ void flipclock_card_animate(struct flipclock_card *card, SDL_Point offset)
 		       &half_source_rect, &half_target_rect);
 }
 
+/**
+ * Recreate the card's textures and request a redraw.
+ * Card contents are baked into GPU textures and only repainted when the text
+ * changes, so they have to be repainted after a render device reset.
+ */
+void flipclock_card_reset_textures(struct flipclock_card *card)
+{
+	RETURN_IF_FAIL(card != NULL);
+
+	_flipclock_card_destroy_textures(card);
+	_flipclock_card_create_textures(card);
+	// A half-run flip would animate against the now blank `previous` texture.
+	card->start_tick = 0;
+	card->should_redraw = true;
+}
+
 void flipclock_card_destory(struct flipclock_card *card)
 {
 	RETURN_IF_FAIL(card != NULL);

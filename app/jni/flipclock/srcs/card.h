@@ -35,6 +35,7 @@ void flipclock_card_set_sub_text(struct flipclock_card *card,
 				 const char sub_text[]);
 void flipclock_card_flip(struct flipclock_card *card);
 void flipclock_card_animate(struct flipclock_card *card, SDL_Point offset);
+void flipclock_card_reset_textures(struct flipclock_card *card);
 void flipclock_card_destory(struct flipclock_card *card);
 
 #endif
