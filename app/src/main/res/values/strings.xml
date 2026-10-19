@@ -6,7 +6,7 @@
     <string name="auto_start_enabled_description">已启用：设备开机后将以悬浮窗形式自动显示 FlipClockV2。</string>
     <string name="auto_start_disabled_description">已禁用：设备开机后不会自动显示 FlipClockV2。</string>
     <string name="auto_start_dialog_title">允许开机自动启动？</string>
-    <string name="auto_start_dialog_message">开启后，FlipClockV2 将在设备开机后以悬浮窗形式显示在最前台。此功能需要系统自启动权限、悬浮窗权限、通知权限，并建议关闭电池优化以保证稳定性。</string>
+    <string name="auto_start_dialog_message">开启后，FlipClockV2 将在设备开机后以悬浮窗形式显示在最前台。此功能需要系统自启动权限、悬浮窗权限、通知权限，并建议关闭电池优化以保证稳定性。\n\n部分厂商系统（荣耀、华为等）还会额外拦截开机广播，需要在管家里手动放行：平板管家 → 启动管理器（应用启动管理）→ 找到 FlipClockV2 → 关闭「自动管理」→ 在弹出的三项里允许「自启动」（关联启动、后台活动一并允许）→ 保存。\n\n小米、OPPO、vivo 在各自的管家或权限管理里有同类开关。</string>
     <string name="auto_start_dialog_agree">同意</string>
     <string name="auto_start_dialog_cancel">取消</string>
     <string name="overlay_permission_button">悬浮窗权限</string>

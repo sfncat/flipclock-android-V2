@@ -71,6 +71,9 @@ BootReceiver.onReceive()
 2. `SettingsActivity` 中默认显示 **"开机自动启动"** 开关，初始为关闭状态。
 3. 用户首次打开开关时：
    - 弹出 Dialog 说明用途，用户点击 **"同意"** 后才保存授权。
+   - Dialog 文案里同时给出厂商管家的手动放行步骤（荣耀/华为：平板管家 → 启动管理器 →
+     找到 FlipClockV2 → 关闭"自动管理" → 允许自启动/关联启动/后台活动）。这类开关会拦截
+     `BOOT_COMPLETED`，且受厂商权限保护、adb 无法代开，卸载重装后会被重置，只能由用户点一次。
    - 请求 **悬浮窗权限**（`SYSTEM_ALERT_WINDOW`）：跳转到系统设置页让用户手动开启。
    - Android 13+ 请求 `POST_NOTIFICATIONS` 运行时权限。
    - 引导用户关闭电池优化（`ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`）。
