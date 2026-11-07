@@ -15,6 +15,7 @@ Android 翻页时钟应用，基于开源 flipclock-android 的增强版（V2，
 - `app/`：Android 主模块（`src/main` 含 Java/res/assets/Manifest，`jni/` 为原生与 SDL）。
 - `weather/`：天气功能 Gradle 模块，由根 `settings.gradle`（`include ':app', ':weather'`）引入。
 - `docs/`：功能设计文档（自启动、冷启动空白卡片、防烧屏、日期/节气、竖排、天气）。
+- 根目录 `CHANGELOG.md`：面向使用者的版本变更记录，发版时补版本块（分类 Added / Changed / Fixed / Removed）。
 - `scripts/`：构建与开机链路脚本；`fonts/`、`keystore/`、`releases/` 分别存字体、签名配置与发布产物。
 
 ## 项目进度上报
@@ -25,3 +26,11 @@ Android 翻页时钟应用，基于开源 flipclock-android 的增强版（V2，
 - `## 当前进展` 一两句说清做到哪、卡在哪；`## 等你决策` 只放需要用户拍板的事，没有就写「暂无」，**这一段不许省略**；`## TOP 待办` 只放不依赖用户、AI 自己能推进的事，最多 5 条，行顺序即优先级；`## 最近完成` 倒序。
 - 只写能确认的事实，未知写「待补充」，不编造。
 - 动笔前先读规范：技能 `agents-md-authoring` 的 `references/project-status.md`。
+
+## 变更记录
+
+- 根目录 `CHANGELOG.md` 是本项目的变更记录，面向使用者，按版本组织，**最新在最上面**。
+- 每次发版前更新；日常小改动不必逐条写，攒到发版时归并。
+- 格式：`## [版本号] - YYYY-MM-DD`，下面按 `Added` / `Changed` / `Fixed` / `Removed` 分类；只写用户能感知的变化，不写实现细节，也不写「优化代码结构」这类空话。
+- 与 `PROJECT_STATUS.md` 的 `## 最近完成`、`git log` 分工不同，不要互相复制。
+- 动笔前先读规范：技能 `agents-md-authoring` 的 `references/changelog.md`。
